@@ -17,7 +17,12 @@ func NewHandler(db *gorm.DB) *Handler {
 }
 
 func (h Handler) GetBrokerList(c *gin.Context) {
-	c.JSON(200, gin.H{})
+	var brokers []database.Broker
+	h.DB.Find(&brokers)
+	c.JSON(200, gin.H{
+		"result":  "success",
+		"brokers": brokers,
+	})
 }
 
 func (h Handler) GetOneBroker(c *gin.Context) {
@@ -72,7 +77,6 @@ func (h Handler) DeleteOneBroker(c *gin.Context) {
 		"result": "success",
 		"broker": broker,
 	})
-	c.JSON(200, gin.H{})
 }
 
 func (h Handler) GetReview(c *gin.Context) {
